@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}My Debit Cards{% endblock title %} {# Optional: Sets the page title #}
+
+{% block content %}
+<div class="container mt-4"> {# Using Bootstrap classes for example, adapt as needed #}
+    <h1>My Debit Cards</h1>
+    <hr>
+
+    {% if debit_cards %}
+        <p>Here is a list of your active debit cards.</p>
+
+        <div class="list-group">
+            {% for card in debit_cards %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start mb-3 shadow-sm">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        <i class="fas fa-credit-card"></i> {# Example using Font Awesome icon #}
+                        Card ending in {{ card.last_four_digits }} {# Placeholder: Replace with actual model field access #}
+                    </h5>
+                    <small>Expires: {{ card.expiry_date|date:"m/y" }}</small> {# Placeholder: Assumes expiry_date is a DateField, use Django date filter #}
+                </div>
+                <p class="mb-1">
+                    <strong>Cardholder:</strong> {{ card.cardholder_name }} <br> {# Placeholder #}
+                    <strong>Status:</strong> <span class="badge {% if card.status == 'Active' %}bg-success{% elif card.status == 'Blocked' %}bg-danger{% else %}bg-warning{% endif %}">{{ card.status }}</span> {# Placeholder: Adapt badge class based on status #} <br>
+                    <strong>Linked Account:</strong> {{ card.linked_account_nickname }} {# Placeholder: Or account number #}
+                </p>
+                <div class="mt-2">
+                    <button class="btn btn-sm btn-warning" disabled>Report Lost/Stolen</button> {# Placeholder: Functionality TBD #}
+                    <button class="btn btn-sm btn-info" disabled>Set/Change PIN</button> {# Placeholder: Functionality TBD #}
+                    <button class="btn btn-sm btn-secondary" disabled>View Limits</button> {# Placeholder: Functionality TBD #}
+                    {% if card.status == 'Inactive' %} {# Example conditional action #}
+                    <button class="btn btn-sm btn-primary" disabled>Activate Card</button> {# Placeholder: Functionality TBD #}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You do not have any debit cards associated with your account currently.
+        </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <button class="btn btn-primary" disabled>Request New Debit Card</button> {# Placeholder: Functionality TBD #}
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block extra_css %}
+{# Add page-specific CSS links here if needed #}
+<style>
+    /* Basic styling if not using a framework like Bootstrap */
+    .container { max-width: 960px; margin: auto; padding: 20px; }
+    .list-group-item { border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+    .d-flex { display: flex; }
+    .w-100 { width: 100%; }
+    .justify-content-between { justify-content: space-between; }
+    .align-items-start { align-items: flex-start; }
+    .flex-column { flex-direction: column; }
+    .mb-1, .mb-3 { margin-bottom: 0.25rem; } .mb-3 { margin-bottom: 1rem !important; }
+    .mt-2, .mt-4 { margin-top: 0.5rem; } .mt-4 { margin-top: 1.5rem !important; }
+    .badge { display: inline-block; padding: .35em .65em; font-size: .75em; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25rem; }
+    .bg-success { background-color: #198754 !important; }
+    .bg-danger { background-color: #dc3545 !important; }
+    .bg-warning { background-color: #ffc107 !important; color: #000 !important; }
+    .bg-info { background-color: #0dcaf0 !important; }
+    .btn { display: inline-block; font-weight: 400; line-height: 1.5; color: #212529; text-align: center; text-decoration: none; vertical-align: middle; cursor: pointer; -webkit-user-select: none; user-select: none; background-color: transparent; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; border-radius: .25rem; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; }
+    .btn-sm { padding: .25rem .5rem; font-size: .875rem; border-radius: .2rem; }
+    .btn-primary { color: #fff; background-color: #0d6efd; border-color: #0d6efd; }
+    .btn-warning { color: #000; background-color: #ffc107; border-color: #ffc107; }
+    .btn-info { color: #000; background-color: #0dcaf0; border-color: #0dcaf0; }
+    .btn-secondary { color: #fff; background-color: #6c757d; border-color: #6c757d; }
+    .alert { position: relative; padding: 1rem 1rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: .25rem; }
+    .alert-info { color: #055160; background-color: #cff4fc; border-color: #b6effb; }
+    /* Add more styles as needed */
+</style>
+{% endblock extra_css %}
+
+{% block extra_js %}
+{# Add page-specific JS links or inline scripts here if needed #}
+{% endblock extra_js %}
