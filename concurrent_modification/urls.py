@@ -34,7 +34,8 @@ urlpatterns = [
     path('personal_info_edit/', EditPersonalInfoView.as_view(), name='personal_info_edit'),
     path('debit/reactivate/', ReactivateDebitView.as_view(), name='debit_reactivate'),
     path('debit/close/', CloseDebitView.as_view(), name='debit_close'),
-    path('transactions/', TransactionsView.as_view(), name='transactions')
+    path('transactions/', TransactionsView.as_view(), name='transactions'),
+    path('help/', views.help_page_view, name='help_page')
 ]
 
 
